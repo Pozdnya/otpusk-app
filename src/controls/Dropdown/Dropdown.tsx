@@ -6,7 +6,8 @@ export const Dropdown = () => {
   return (
     <div className={cls(
       'dropdown',
-      { 'dropdown--opened': isOpened }
+      { 'dropdown--opened': isOpened },
+      { 'dropdown--closed': !isOpened },
     )}>
       Dropdown
     </div>

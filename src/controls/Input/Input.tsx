@@ -9,6 +9,10 @@ export const Input = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(dropdownSlice.actions.setQueryValue(event.target.value));
     dispatch(dropdownSlice.actions.openDropdown(true));
+
+    if (!event.target.value) {
+      dispatch(dropdownSlice.actions.openDropdown(false));
+    }
   }
 
   return (

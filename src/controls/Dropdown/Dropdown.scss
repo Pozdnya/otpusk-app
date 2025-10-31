@@ -3,17 +3,22 @@
   height: 0;
   background-color: $background-color-white;
   border-radius: 0.4rem;
-  border: 1px solid darken($border-color, 10);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   align-items: start;
-  transition: height 0.3s ease;
-  display: none;
-  
+  overflow: hidden;
+  padding: 1rem 2rem;
+
   &--opened {
-    display: block;
-    height: 40rem;
-    padding: 1rem 2rem;
+    border: 1px solid darken($border-color, 10);
+    animation: dropdown-slide-in 0.3s ease forwards;
+  }
+
+  &--closed {
+    animation: dropdown-slide-out 0.3s ease forwards;
   }
 }
+
+
+
