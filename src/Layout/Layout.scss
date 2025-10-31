@@ -1,7 +1,7 @@
   .layout {
     width: 100vw;
     min-height: 100vh;
-    background-color: #f0f2f5;
+    background-color: $background-color;
 
     &__container {
       width: 100%;
@@ -14,14 +14,12 @@
 
     @media (min-width: 1400px) {
       &__container {
-        padding: 4rem;
         max-width: 1320px;
       }
     }
 
     @media (max-width: 1200px) {
       &__container {
-        padding: 3rem;
         max-width: 1140px;
       }
     }

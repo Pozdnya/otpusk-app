@@ -1,9 +1,14 @@
+import { Form } from './components/Form/Form'
 
 function App() {
-
   return (
     <>
-      <div>test</div>
+      <div className='content'>
+        <aside>
+          <Form />
+        </aside>
+        <div>content</div>
+      </div>
     </>
   )
 }
