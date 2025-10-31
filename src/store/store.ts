@@ -1,17 +1,16 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-// import userReducer from './reducers/UserSlice';
-// import { postAPI } from '../services/PostService';
 import dropdownReducer from './reducers/DropdownSlice';
+import { countriesAPI } from '../services/CountiesService';
 
 const rootReducer = combineReducers({
   dropdownReducer,
-  // [postAPI.reducerPath]: postAPI.reducer
+  [countriesAPI.reducerPath]: countriesAPI.reducer
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
-    // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(postAPI.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(countriesAPI.middleware)
   })
 };
 

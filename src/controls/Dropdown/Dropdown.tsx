@@ -1,7 +1,13 @@
 import { useAppSelector } from '../../hooks/redux'
 import cls from 'classnames'
+import type { Country } from '../../types'
+import type { FC } from 'react'
+import { CountriesList } from '../../components/CountriesList/CountriesList'
 
-export const Dropdown = () => {
+interface Props {
+  countries: Country[],
+}
+export const Dropdown: FC<Props> = ({countries}) => {
   const { isOpened } = useAppSelector(state => state.dropdownReducer)
   return (
     <div className={cls(
@@ -9,7 +15,7 @@ export const Dropdown = () => {
       { 'dropdown--opened': isOpened },
       { 'dropdown--closed': !isOpened },
     )}>
-      Dropdown
+      {isOpened && <CountriesList countries={countries} />}
     </div>
   )
 }

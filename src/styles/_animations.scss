@@ -4,10 +4,12 @@
     transform: translateY(-20px);
     height: 0;
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
-    height: 40rem;
+    min-height: 4rem;
+    height: fit-content;
   }
 }
 
@@ -15,8 +17,10 @@
   0% {
     opacity: 1;
     transform: translateY(0);
-    height: 40rem;
+    min-height: 4rem;
+    height: fit-content;
   }
+
   100% {
     opacity: 0;
     transform: translateY(-20px);

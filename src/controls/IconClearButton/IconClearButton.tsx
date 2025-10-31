@@ -7,7 +7,6 @@ export const IconClearButton = () => {
   const handleClear = (event: React.MouseEvent) => {
     event.stopPropagation();
     dispatch(dropdownSlice.actions.setQueryValue(''));
-    dispatch(dropdownSlice.actions.openDropdown(false));
   }
   return (
     <button className='clear-button' onClick={handleClear}>X</button>

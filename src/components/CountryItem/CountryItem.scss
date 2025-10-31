@@ -1,0 +1,12 @@
+.country-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  gap: 1.5rem;
+
+  &__flag {
+    width: 3rem;
+    height: 1.75rem;
+    border-radius: 0.4rem;
+  }
+}
