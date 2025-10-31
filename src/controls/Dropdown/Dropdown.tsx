@@ -1,5 +1,14 @@
+import { useAppSelector } from '../../hooks/redux'
+import cls from 'classnames'
+
 export const Dropdown = () => {
+  const { isOpened } = useAppSelector(state => state.dropdownReducer)
   return (
-    <div className='dropdown-container'>Dropdown</div>
+    <div className={cls(
+      'dropdown',
+      { 'dropdown--opened': isOpened }
+    )}>
+      Dropdown
+    </div>
   )
 }

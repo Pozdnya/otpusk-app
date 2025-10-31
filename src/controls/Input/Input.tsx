@@ -1,11 +1,14 @@
-import { useState } from 'react'
 import { IconClearButton } from '../IconClearButton/IconClearButton'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { dropdownSlice } from '../../store/reducers/DropdownSlice';
 
 export const Input = () => {
-  const [ query, setQuery ] = useState('')
+  const { query } = useAppSelector(state => state.dropdownReducer)
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value)
+    dispatch(dropdownSlice.actions.setQueryValue(event.target.value));
+    dispatch(dropdownSlice.actions.openDropdown(true));
   }
 
   return (
