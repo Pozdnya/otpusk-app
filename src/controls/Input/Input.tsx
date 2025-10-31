@@ -2,19 +2,24 @@ import { IconClearButton } from '../IconClearButton/IconClearButton'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { dropdownSlice } from '../../store/reducers/DropdownSlice';
 import type { FC } from 'react';
+import { countriesAPI } from '../../services/CountiesService';
 interface Props {
   onClick: () => void
 }
-export const Input: FC<Props> = ({onClick}) => {
+export const Input: FC<Props> = ({ onClick }) => {
   const { query } = useAppSelector(state => state.dropdownReducer)
   const dispatch = useAppDispatch();
-
+  const [fetchGeo, { data: geo, isLoading: isGeoLoading, isError: isGeoError }] = countriesAPI.useLazyFetchGeoQuery();
+  console.log('data', geo, isGeoLoading, isGeoError)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(dropdownSlice.actions.setQueryValue(event.target.value));
 
     if (!event.target.value) {
       dispatch(dropdownSlice.actions.openDropdown(false));
     }
+
+    console.log('event.target.value', event.target.value)
+    fetchGeo(event.target.value);
   }
 
   return (

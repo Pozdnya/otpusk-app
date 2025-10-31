@@ -9,3 +9,8 @@ export type Hotel   = {
   countryId: string;
   countryName: string;
 };
+
+export type GeoEntity =
+  | (Country & { type: "country" })
+  | (City    & { type: "city" })
+  | (Hotel   & { type: "hotel" });

@@ -1,20 +1,34 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Country } from '../types';
-import { getCountries } from '../api';
+import type { Country, GeoEntity } from '../types';
+import { getCountries, searchGeo } from '../api';
 
 export const countriesAPI = createApi({
   reducerPath: 'countriesAPI',
   baseQuery: fakeBaseQuery(),
   tagTypes: ['Countries'],
   endpoints: (builder) => ({
-    getCountries: builder.query<Country[], void>({
-      queryFn: async() => {
+    fetchCountries: builder.query<Country[], void>({
+      queryFn: async () => {
         try {
           const response = await getCountries();
           const json = await response.json();
           const countriesArray: Country[] = Object.values(json);
-          
+
           return { data: countriesArray };
+        } catch (error) {
+          return { error: error as Error };
+        }
+      },
+      providesTags: () => ['Countries']
+    }),
+    fetchGeo: builder.query<GeoEntity[], string>({
+      queryFn: async (query: string) => {
+        try {
+          const response = await searchGeo(query);
+          const json = await response.json();
+          console.log('json', json)
+          const geoArray: GeoEntity[] = Object.values(json);
+          return { data: geoArray }
         } catch (error) {
           return { error: error as Error };
         }
