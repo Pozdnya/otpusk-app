@@ -1,6 +1,6 @@
 import { Form } from './components/Form/Form'
 
-function App() {
+export const App = () => {
   return (
     <>
       <div className='content'>
@@ -12,5 +12,3 @@ function App() {
     </>
   )
 }
-
-export default App

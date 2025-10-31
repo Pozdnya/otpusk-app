@@ -1,4 +1,5 @@
 import { Button } from '../../controls/Button/Button'
+import { Dropdown } from '../../controls/Dropdown/Dropdown'
 import { Input } from '../../controls/Input/Input'
 
 export const Form = () => {
@@ -6,11 +7,9 @@ export const Form = () => {
     <div className='form-container'>
       <form className="form">
         <h2 className='form__title'>Форма пошуку турів</h2>
-        <div style={{width: '100%'}}>
+        <div className='form__inputs'>
           <Input />
-          <div className='form__dropdown'>
-            dropdown
-          </div>
+          <Dropdown />
         </div>
         <Button text='Знайти' />
       </form>

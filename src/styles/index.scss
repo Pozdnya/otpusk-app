@@ -6,13 +6,14 @@
 @import '../Layout/Layout';
 
 // pages
+@import '../App.scss';
 @import '../pages/NotFoundPage/NotFoundPage';
 
 //controls
 @import '../controls/Button/Button';
 @import '../controls/Input/Input';
 @import '../controls/IconClearButton/IconClearButton';
+@import '../controls/Dropdown/Dropdown';
 
 //components
-@import '../App.scss';
 @import '../components/Form/Form';
