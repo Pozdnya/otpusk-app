@@ -13,7 +13,7 @@ export const countriesAPI = createApi({
           const response = await getCountries();
           const json = await response.json();
           const countriesArray: Country[] = Object.values(json);
-          console.log('json', countriesArray)
+          
           return { data: countriesArray };
         } catch (error) {
           return { error: error as Error };

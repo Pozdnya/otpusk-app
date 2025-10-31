@@ -8,8 +8,7 @@ import { dropdownSlice } from '../../store/reducers/DropdownSlice'
 export const Form = () => {
   const dispatch = useAppDispatch();
   const [getCountries, { data: countries, isLoading: isCountriesLoading, isError: isCountriesError }] = countriesAPI.useLazyGetCountriesQuery();
-  // const {data: countries, isLoading: isCountriesLoading, isError: isCountriesError} = countriesAPI.useGetCountriesQuery()
-  console.log('countries', countries)
+
   const handleInputClick = () => {
     dispatch(dropdownSlice.actions.openDropdown(true));
     getCountries();
