@@ -1,7 +1,7 @@
 .dropdown {
   width: 100%;
   height: 0;
-  background-color: $background-color-white;
+  background-color: $color-white;
   border-radius: 0.4rem;
   display: flex;
   flex-direction: column;
@@ -11,7 +11,7 @@
   padding: 1rem 2rem;
 
   &--opened {
-    border: 1px solid darken($border-color, 10);
+    border: 1px solid darken($color-light-grey, 10);
     animation: dropdown-slide-in 0.3s ease forwards;
   }
 
