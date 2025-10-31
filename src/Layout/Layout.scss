@@ -12,16 +12,17 @@
       box-sizing: border-box;
     }
 
-    @media (max-width: 576px) {
+    @media (min-width: 1400px) {
       &__container {
-        padding: 1rem;
+        padding: 4rem;
+        max-width: 1320px;
       }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 1200px) {
       &__container {
-        padding: 1.5rem;
-        max-width: 100%;
+        padding: 3rem;
+        max-width: 1140px;
       }
     }
 
@@ -32,15 +33,16 @@
       }
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 768px) {
       &__container {
-        max-width: 1140px;
+        padding: 1.5rem;
+        max-width: 100%;
       }
     }
 
-    @media (min-width: 1400px) {
+    @media (max-width: 576px) {
       &__container {
-        max-width: 1320px;
+        padding: 1rem;
       }
     }
   }
