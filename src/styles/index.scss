@@ -1,5 +1,12 @@
+// styles
 @import './reset';
 @import './vars';
 
+// layout
+@import '../Layout/Layout';
+
+// pages
 @import '../pages/NotFoundPage/NotFoundPage';
+
+//controls
 @import '../controls/Button/Button';
