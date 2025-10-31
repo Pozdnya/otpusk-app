@@ -1,10 +1,13 @@
-import React, { type FC } from 'react';
+import { type FC } from 'react';
+import cls from 'classnames';
 
 interface Props {
   text: string;
+  classNames?: string;
+  handleClick?: () => void;
 }
-export const Button: FC<Props> = ({ text }) => {
+export const Button: FC<Props> = ({ text, classNames = '', handleClick }) => {
   return (
-    <button>{text}</button>
+    <button className={cls('button', classNames)} onClick={handleClick}>{text}</button>
   )
 }

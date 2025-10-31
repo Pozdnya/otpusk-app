@@ -4,8 +4,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  gap: 10px;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: fit-content;
+    height: fit-content;
+  }
 
   &__text {
     font-size: 4rem;
