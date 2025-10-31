@@ -1,0 +1,19 @@
+.input-container {
+  width: 100%;
+  position: relative;
+}
+.input {
+  padding: 1rem 2rem;
+  border: 1px solid darken($border-color, 10);
+  border-radius: 0.4rem;
+  font-size: 1.6rem;
+  box-shadow: none;
+  transition: border-color 0.3s ease;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+    border: 1px solid $border-color;
+    box-shadow: 0 0 0.6rem rgba(0, 0, 0, 0.1);
+  }
+}
