@@ -1,6 +1,6 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Country, GeoEntity, GetSearchPricesResponse, StartSearchResponse } from '../types';
-import { getCountries, getSearchPrices, searchGeo, startSearchPrices } from '../api';
+import type { Country, GeoEntity, GetSearchPricesResponse, Hotel, StartSearchResponse } from '../types';
+import { getCountries, getHotels, getSearchPrices, searchGeo, startSearchPrices } from '../api';
 
 export const searchAPI = createApi({
   reducerPath: 'countriesAPI',
@@ -61,6 +61,8 @@ export const searchAPI = createApi({
             prices: pricesArray,
           };
 
+          console.log('fetchGetSearchPrices', transformed)
+
           return { data: transformed };
         } catch (error) {
           return { error: error as Error };
@@ -68,5 +70,18 @@ export const searchAPI = createApi({
       },
       providesTags: () => [{ type: 'Prices' }],
     }),
+    fetchHotels: builder.query<Hotel[], string>({
+      queryFn: async(countryId: string) => {
+        try {
+          const response = await getHotels(countryId);
+          const json = await response.json();
+          const transformed: Hotel[] = Object.values(json || {});
+
+          return { data: transformed };
+        } catch (error) {
+          return { error: error as Error };
+        }
+      }
+    })
   }),
 })

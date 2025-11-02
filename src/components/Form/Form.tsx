@@ -7,12 +7,14 @@ import { searchAPI } from '../../services/SearchService'
 // import { dropdownSlice } from '../../store/reducers/SearchSlice'
 import { searchSlice } from '../../store/reducers/SearchSlice'
 import { toursSlice } from '../../store/reducers/ToursSlice'
+import type { Hotel, HotelWithPrice, PriceOffer } from '../../types'
 
 export const Form = () => {
   const dispatch = useAppDispatch();
   const [fetchCountries, { data: countries }] = searchAPI.useLazyFetchCountriesQuery();
   const [fetchStartSearchPrices] = searchAPI.useLazyFetchStartSearchPricesQuery();
   const [fetchGetSearchPrices] = searchAPI.useLazyFetchGetSearchPricesQuery();
+  const [fetchHotels] = searchAPI.useLazyFetchHotelsQuery();
   const { query, countryId } = useAppSelector(state => state.searchReducer)
 
   const [fetchGeo, { data: geo }] = searchAPI.useLazyFetchGeoQuery();
@@ -37,9 +39,27 @@ export const Form = () => {
     await new Promise((resolve) => setTimeout(resolve, Number(waitUntil)));
 
     try {
-      const result = await fetchGetSearchPrices(token).unwrap();
-      dispatch(toursSlice.actions.setTours(result.prices));
-      console.log('🚀 Result:', result.prices);
+      const prices = await fetchGetSearchPrices(token).unwrap();
+      console.log('🚀 Prices:', prices);
+      const hotels = await fetchHotels(countryId || '').unwrap();
+      console.log('🚀 Hotels:', hotels);
+      const hotelMap = new Map<number, Hotel>(hotels.map(hotel => [hotel.id, hotel]));
+      const hotelsWithPrices: HotelWithPrice[] = prices.prices
+        .filter((price): price is PriceOffer & { hotelID: string } => !!price.hotelID)
+        .map(price => {
+          const hotel = hotelMap.get(Number(price.hotelID));
+          if (!hotel) return null;
+
+
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { id: _, hotelID: __, ...priceData } = price;
+          return { ...hotel, ...priceData };
+        })
+        .filter((item): item is HotelWithPrice => item !== null);
+
+      dispatch(toursSlice.actions.setHotelsWithPrice(hotelsWithPrices));
+
+      console.log('✅ Hotels with prices:', hotelsWithPrices);
     } catch (error) {
       console.error('⚠️ Error fetching results:', error);
 

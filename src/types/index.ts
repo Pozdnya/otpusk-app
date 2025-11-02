@@ -41,8 +41,8 @@ export type PriceOffer = {
   hotelID?: string;
 };
 
-// export type PricesMap = Record<string, PriceOffer>;
-
 export type GetSearchPricesResponse = {
   prices: PriceOffer[];
 };
+
+export type HotelWithPrice = Hotel & Omit<PriceOffer, 'id' | 'hotelID'>

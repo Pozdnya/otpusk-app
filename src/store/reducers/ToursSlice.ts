@@ -1,23 +1,22 @@
-import type { PriceOffer } from '../../types';
+import type { HotelWithPrice } from '../../types';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 
 interface ToursState {
-  tours: PriceOffer[];
+  hotelsWithPrice: HotelWithPrice[]
 }
 
 const initialState: ToursState = {
-  tours: [],
-
+  hotelsWithPrice: [],
 }
 
 export const toursSlice = createSlice({
   name: 'tours',
   initialState,
   reducers: {
-    setTours: (state, action: PayloadAction<PriceOffer[]>) => {
-      state.tours = action.payload
-    }
+    setHotelsWithPrice: (state, action: PayloadAction<HotelWithPrice[]>) => {
+      state.hotelsWithPrice = action.payload
+    },
   }
 })
 

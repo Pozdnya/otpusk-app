@@ -1,17 +1,17 @@
 import { useAppSelector } from '../../hooks/redux';
-import { EmptyTours } from '../EmptyTours/EmptyTours';
+import { ResultStatus } from '../ResultStatus/ResultStatus';
 import { Spinner } from '../Spinner/Spinner';
 import { ToursList } from '../ToursList/ToursList';
 
 export const Main = () => {
-  const { tours } = useAppSelector(state => state.toursReducer)
-  const { loading, hasSearched } = useAppSelector(state => state.searchReducer)
-  console.log('tours', tours)
+  const { hotelsWithPrice } = useAppSelector(state => state.toursReducer)
+  const { loading, hasSearched, error } = useAppSelector(state => state.searchReducer)
   return (
     <div className='main'>
       {loading && <div className='main__spinner'><Spinner /></div>}
-      {!loading && hasSearched && tours.length === 0 && <EmptyTours />}
-      {!loading && tours.length > 0 && <ToursList />}
+      {(!loading && hasSearched && hotelsWithPrice.length === 0) && <ResultStatus text={'За вашим запитом турів не знайдено'} />}
+      {(!loading && hasSearched && error) && <ResultStatus text={'Помилка при завантаженні турiв'} />}
+      {(!loading && hotelsWithPrice.length > 0) && <ToursList tour={hotelsWithPrice} />}
     </div>
   )
 }
