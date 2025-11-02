@@ -1,0 +1,56 @@
+.tour {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  padding: 2.5rem;
+
+  &:hover {
+    transform: translateY(-0.4rem);
+  }
+
+  &__image {
+    width: 100%;
+    height: 16rem;
+    object-fit: cover;
+  }
+
+  &__info {
+    padding: 1.5rem;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    margin: 0 0 0.6rem;
+  }
+
+  &__location {
+    color: #555;
+    margin-bottom: 0.8rem;
+  }
+
+  &__date {
+    font-size: 1.4rem;
+    color: #777;
+    margin-bottom: 0.8rem;
+  }
+
+  &__price {
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  &__link {
+    display: inline-block;
+    color: $primary-button-color;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

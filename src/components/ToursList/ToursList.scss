@@ -1,13 +1,15 @@
 .tour-list {
+  width: 700px;
+  padding: 25px;
+  margin: 0 auto;
+}
+
+.tours-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
 
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  @media (max-width: 1200px) {
+    grid-template-columns: 1fr;
   }
 }
