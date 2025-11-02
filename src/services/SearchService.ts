@@ -2,7 +2,7 @@ import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { Country, GeoEntity } from '../types';
 import { getCountries, searchGeo } from '../api';
 
-export const countriesAPI = createApi({
+export const searchAPI = createApi({
   reducerPath: 'countriesAPI',
   baseQuery: fakeBaseQuery(),
   tagTypes: ['Countries'],
@@ -26,7 +26,6 @@ export const countriesAPI = createApi({
         try {
           const response = await searchGeo(query);
           const json = await response.json();
-          console.log('json', json)
           const geoArray: GeoEntity[] = Object.values(json);
           return { data: geoArray }
         } catch (error) {

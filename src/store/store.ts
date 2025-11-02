@@ -1,16 +1,16 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import dropdownReducer from './reducers/DropdownSlice';
-import { countriesAPI } from '../services/CountiesService';
+import { searchAPI } from '../services/SearchService';
 
 const rootReducer = combineReducers({
   dropdownReducer,
-  [countriesAPI.reducerPath]: countriesAPI.reducer
+  [searchAPI.reducerPath]: searchAPI.reducer
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(countriesAPI.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(searchAPI.middleware)
   })
 };
 

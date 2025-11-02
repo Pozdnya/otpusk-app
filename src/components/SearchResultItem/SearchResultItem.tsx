@@ -6,7 +6,7 @@ import { dropdownSlice } from '../../store/reducers/DropdownSlice';
 interface Props {
   country: Country
 }
-export const CountryItem: FC<Props> = ({country}) => {
+export const SearchResultItem: FC<Props> = ({country}) => {
   const dispath = useAppDispatch();
   const handleSelect = (event: React.MouseEvent) => {
     const input = event.target as HTMLInputElement

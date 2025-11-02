@@ -2,12 +2,12 @@ import { Button } from '../../controls/Button/Button'
 import { Dropdown } from '../../controls/Dropdown/Dropdown'
 import { Input } from '../../controls/Input/Input'
 import { useAppDispatch } from '../../hooks/redux'
-import { countriesAPI } from '../../services/CountiesService'
+import { searchAPI } from '../../services/SearchService'
 import { dropdownSlice } from '../../store/reducers/DropdownSlice'
 
 export const Form = () => {
   const dispatch = useAppDispatch();
-  const [fetchCountries, { data: countries, isLoading: isCountriesLoading, isError: isCountriesError }] = countriesAPI.useLazyFetchCountriesQuery();
+  const [fetchCountries, { data: countries, isLoading: isCountriesLoading, isError: isCountriesError }] = searchAPI.useLazyFetchCountriesQuery();
 
   const handleInputClick = () => {
     dispatch(dropdownSlice.actions.openDropdown(true));

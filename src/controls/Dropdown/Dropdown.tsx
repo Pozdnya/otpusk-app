@@ -2,7 +2,7 @@ import { useAppSelector } from '../../hooks/redux'
 import cls from 'classnames'
 import type { Country } from '../../types'
 import type { FC } from 'react'
-import { CountriesList } from '../../components/CountriesList/CountriesList'
+import { SearchResultsList } from '../../components/SearchResultsList/SearchResultsList'
 
 interface Props {
   countries: Country[],
@@ -15,7 +15,7 @@ export const Dropdown: FC<Props> = ({countries}) => {
       { 'dropdown--opened': isOpened },
       { 'dropdown--closed': !isOpened },
     )}>
-      {isOpened && <CountriesList countries={countries} />}
+      {isOpened && <SearchResultsList countries={countries} />}
     </div>
   )
 }
