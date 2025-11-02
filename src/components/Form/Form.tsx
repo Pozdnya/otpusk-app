@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { searchAPI } from '../../services/SearchService'
 // import { dropdownSlice } from '../../store/reducers/SearchSlice'
 import { searchSlice } from '../../store/reducers/SearchSlice'
+import { toursSlice } from '../../store/reducers/ToursSlice'
 
 export const Form = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +38,7 @@ export const Form = () => {
 
     try {
       const result = await fetchGetSearchPrices(token).unwrap();
+      dispatch(toursSlice.actions.setTours(result.prices));
       console.log('🚀 Result:', result.prices);
     } catch (error) {
       console.error('⚠️ Error fetching results:', error);
@@ -57,11 +59,21 @@ export const Form = () => {
       return;
     }
 
+    dispatch(searchSlice.actions.setHasSearched(false));
+
     try {
+      dispatch(searchSlice.actions.setLoading(true));
+      dispatch(searchSlice.actions.setHasSearched(true));
       const { token, waitUntil } = await fetchStartSearchPrices(countryId).unwrap();
       const delay = new Date(waitUntil).getTime() - Date.now();
+
       await pollForResults(token, delay);
+
+      dispatch(searchSlice.actions.setLoading(false));
     } catch (error) {
+      const err = error instanceof Error ? error.message : 'Неочікувана помилка';
+      dispatch(searchSlice.actions.setError(err));
+      dispatch(searchSlice.actions.setLoading(false));
       return { error: error as Error };
     }
 

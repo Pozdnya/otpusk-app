@@ -1,0 +1,9 @@
+.spinner {
+  border: 1.2rem solid $color-white;
+  border-radius: 50%;
+  border-top: 1.2rem solid $primary-button-color;
+  width: 8rem;
+  height: 8rem;
+  animation: spin 2s linear infinite;
+}
+

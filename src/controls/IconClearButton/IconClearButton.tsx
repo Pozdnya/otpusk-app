@@ -10,6 +10,7 @@ export const IconClearButton = () => {
     event.stopPropagation();
     dispatch(searchSlice.actions.setQueryValue(''));
     dispatch(searchAPI.util.resetApiState());
+    dispatch(searchSlice.actions.setHasSearched(false));
     fetchCountries();
   }
 
