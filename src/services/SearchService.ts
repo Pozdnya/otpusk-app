@@ -5,7 +5,7 @@ import { getCountries, searchGeo } from '../api';
 export const searchAPI = createApi({
   reducerPath: 'countriesAPI',
   baseQuery: fakeBaseQuery(),
-  tagTypes: ['Countries'],
+  tagTypes: ['Countries', 'Geo'],
   endpoints: (builder) => ({
     fetchCountries: builder.query<(Country & { type: 'country' })[], void>({
       queryFn: async () => {
@@ -27,15 +27,18 @@ export const searchAPI = createApi({
     fetchGeo: builder.query<GeoEntity[], string>({
       queryFn: async (query: string) => {
         try {
-          const response = await searchGeo(query);
+          const formattedQuery = query.charAt(0).toUpperCase() + query.slice(1);
+          console.log('formattedQuery', formattedQuery)
+          const response = await searchGeo(formattedQuery);
           const json = await response.json();
           const geoArray: GeoEntity[] = Object.values(json);
+          console.log('geoArray', geoArray)
           return { data: geoArray }
         } catch (error) {
           return { error: error as Error };
         }
       },
-      providesTags: () => ['Countries']
+      providesTags: () => ['Geo']
     }),
   }),
 })

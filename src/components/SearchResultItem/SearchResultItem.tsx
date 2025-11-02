@@ -8,11 +8,12 @@ interface Props {
   searchResult: GeoEntity;
 }
 export const SearchResultItem: FC<Props> = ({ searchResult }) => {
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
   const handleSelect = (event: React.MouseEvent) => {
     const input = event.target as HTMLInputElement
 
-    dispath(dropdownSlice.actions.setQueryValue(input.innerText));
+    dispatch(dropdownSlice.actions.setQueryValue(input.innerText));
+    dispatch(dropdownSlice.actions.openDropdown(false));
   }
 
   return (
