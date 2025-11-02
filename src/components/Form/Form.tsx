@@ -7,12 +7,21 @@ import { dropdownSlice } from '../../store/reducers/DropdownSlice'
 
 export const Form = () => {
   const dispatch = useAppDispatch();
-  const [fetchCountries, { data: countries, isLoading: isCountriesLoading, isError: isCountriesError }] = searchAPI.useLazyFetchCountriesQuery();
+  const [fetchCountries, { data: countries }] = searchAPI.useLazyFetchCountriesQuery();
 
+  const [fetchGeo, { data: geo }] = searchAPI.useLazyFetchGeoQuery();
   const handleInputClick = () => {
     dispatch(dropdownSlice.actions.openDropdown(true));
     fetchCountries();
-    console.log('data', countries, isCountriesLoading, isCountriesError)
+  }
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(dropdownSlice.actions.setQueryValue(event.target.value));
+    if (!event.target.value) {
+      dispatch(dropdownSlice.actions.openDropdown(false));
+    }
+
+    fetchGeo(event.target.value);
   }
 
   return (
@@ -20,8 +29,16 @@ export const Form = () => {
       <form className="form">
         <h2 className='form__title'>Форма пошуку турів</h2>
         <div className='form__inputs'>
-          <Input onClick={handleInputClick} />
-          {countries && <Dropdown countries={countries} />}
+          <Input handleClick={handleInputClick} handleChange={handleInputChange} />
+          {countries && (
+            <Dropdown
+              searchResults={
+                geo
+                  ? geo
+                  : countries
+              }
+            />
+          )}
         </div>
         <Button text='Знайти' />
       </form>

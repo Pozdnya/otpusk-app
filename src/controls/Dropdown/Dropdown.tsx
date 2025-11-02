@@ -1,13 +1,13 @@
 import { useAppSelector } from '../../hooks/redux'
 import cls from 'classnames'
-import type { Country } from '../../types'
+import type { GeoEntity } from '../../types'
 import type { FC } from 'react'
 import { SearchResultsList } from '../../components/SearchResultsList/SearchResultsList'
 
 interface Props {
-  countries: Country[],
+  searchResults: GeoEntity[],
 }
-export const Dropdown: FC<Props> = ({countries}) => {
+export const Dropdown: FC<Props> = ({searchResults}) => {
   const { isOpened } = useAppSelector(state => state.dropdownReducer)
   return (
     <div className={cls(
@@ -15,7 +15,7 @@ export const Dropdown: FC<Props> = ({countries}) => {
       { 'dropdown--opened': isOpened },
       { 'dropdown--closed': !isOpened },
     )}>
-      {isOpened && <SearchResultsList countries={countries} />}
+      {isOpened && <SearchResultsList searchResults={searchResults} />}
     </div>
   )
 }

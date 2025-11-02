@@ -1,26 +1,12 @@
 import { IconClearButton } from '../IconClearButton/IconClearButton'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { dropdownSlice } from '../../store/reducers/DropdownSlice';
+import { useAppSelector } from '../../hooks/redux'
 import type { FC } from 'react';
-import { searchAPI } from '../../services/SearchService'
 interface Props {
-  onClick: () => void
+  handleClick: () => void;
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
-export const Input: FC<Props> = ({ onClick }) => {
+export const Input: FC<Props> = ({ handleClick, handleChange }) => {
   const { query } = useAppSelector(state => state.dropdownReducer)
-  const dispatch = useAppDispatch();
-  const [fetchGeo, { data: geo, isLoading: isGeoLoading, isError: isGeoError }] = searchAPI.useLazyFetchGeoQuery();
-  console.log('data', geo, isGeoLoading, isGeoError)
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(dropdownSlice.actions.setQueryValue(event.target.value));
-
-    if (!event.target.value) {
-      dispatch(dropdownSlice.actions.openDropdown(false));
-    }
-
-    console.log('event.target.value', event.target.value)
-    fetchGeo(event.target.value);
-  }
 
   return (
     <div className='input-container'>
@@ -32,7 +18,7 @@ export const Input: FC<Props> = ({ onClick }) => {
         className='input'
         value={query}
         onChange={handleChange}
-        onClick={onClick}
+        onClick={handleClick}
       />
       {query && <IconClearButton />}
     </div>

@@ -7,12 +7,15 @@ export const searchAPI = createApi({
   baseQuery: fakeBaseQuery(),
   tagTypes: ['Countries'],
   endpoints: (builder) => ({
-    fetchCountries: builder.query<Country[], void>({
+    fetchCountries: builder.query<(Country & { type: 'country' })[], void>({
       queryFn: async () => {
         try {
           const response = await getCountries();
           const json = await response.json();
-          const countriesArray: Country[] = Object.values(json);
+          const countriesArray = Object.values(json).map((c) => ({
+            ...(c as Country),
+            type: 'country' as const,
+          }));
 
           return { data: countriesArray };
         } catch (error) {

@@ -1,16 +1,16 @@
 import type { FC } from 'react'
-import type { Country } from '../../types'
+import type { GeoEntity } from '../../types'
 import { SearchResultItem } from '../SearchResultItem/SearchResultItem'
 
 
 interface Props {
-  countries: Country[]
+  searchResults: GeoEntity[]
 }
 
-export const SearchResultsList: FC<Props> = ({ countries }) => {
+export const SearchResultsList: FC<Props> = ({ searchResults }) => {
   return (
     <div className='country-list'>
-      {countries.map(country => <SearchResultItem country={country} key={country.id} />)}
+      {searchResults.map(searchResult => <SearchResultItem searchResult={searchResult} key={searchResult.id} />)}
     </div>
   )
 }

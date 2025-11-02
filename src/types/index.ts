@@ -14,3 +14,9 @@ export type GeoEntity =
   | (Country & { type: "country" })
   | (City    & { type: "city" })
   | (Hotel   & { type: "hotel" });
+
+  export enum EntityTypes {
+    COUNTRY = 'country',
+    CITY = 'city',
+    HOTEL = 'hotel',
+  }

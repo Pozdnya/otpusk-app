@@ -1,12 +1,13 @@
 import type { FC } from 'react'
-import type { Country } from '../../types'
+import { EntityTypes, type GeoEntity } from '../../types'
 import { useAppDispatch } from '../../hooks/redux';
 import { dropdownSlice } from '../../store/reducers/DropdownSlice';
-
+import HotelIcon from '../../assets/hotel.svg';
+import CityIcon from '../../assets/city.svg';
 interface Props {
-  country: Country
+  searchResult: GeoEntity;
 }
-export const SearchResultItem: FC<Props> = ({country}) => {
+export const SearchResultItem: FC<Props> = ({ searchResult }) => {
   const dispath = useAppDispatch();
   const handleSelect = (event: React.MouseEvent) => {
     const input = event.target as HTMLInputElement
@@ -16,8 +17,24 @@ export const SearchResultItem: FC<Props> = ({country}) => {
 
   return (
     <div className='country-item' onClick={handleSelect}>
-      <img src={country.flag} alt='Flag image' className='country-item__flag'/>
-      <p className='country-item__name'>{country.name}</p>
+      {
+        searchResult.type === EntityTypes.COUNTRY ?
+          <img
+            src={searchResult.flag}
+            alt='Flag image'
+            className='country-item__flag'
+          /> :
+          <img
+            src={
+              searchResult.type === EntityTypes.CITY
+                ? CityIcon
+                : HotelIcon
+            }
+            alt='Flag image'
+            className='country-item__flag'
+          />
+      }
+      <p className='country-item__name'>{searchResult.name}</p>
     </div>
   )
 }
