@@ -1,7 +1,7 @@
 import type { FC } from 'react'
 import { EntityTypes, type GeoEntity } from '../../types'
 import { useAppDispatch } from '../../hooks/redux';
-import { dropdownSlice } from '../../store/reducers/DropdownSlice';
+import { searchSlice } from '../../store/reducers/SearchSlice';
 import HotelIcon from '../../assets/hotel.svg';
 import CityIcon from '../../assets/city.svg';
 interface Props {
@@ -12,8 +12,12 @@ export const SearchResultItem: FC<Props> = ({ searchResult }) => {
   const handleSelect = (event: React.MouseEvent) => {
     const input = event.target as HTMLInputElement
 
-    dispatch(dropdownSlice.actions.setQueryValue(input.innerText));
-    dispatch(dropdownSlice.actions.openDropdown(false));
+    dispatch(searchSlice.actions.setQueryValue(input.innerText));
+    dispatch(searchSlice.actions.openDropdown(false));
+
+    const countryId = searchResult.type === EntityTypes.COUNTRY ? searchResult.id : searchResult.countryId
+
+    dispatch(searchSlice.actions.setCountryId(countryId));
   }
 
   return (

@@ -1,17 +1,19 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-interface DropdownState {
+interface SearchState {
   isOpened: boolean;
   query: string;
+  countryId: string | null;
 }
 
-const initialState: DropdownState = {
+const initialState: SearchState = {
   isOpened: false,
   query: '',
+  countryId: null,
 };
 
-export const dropdownSlice = createSlice({
-  name: 'dropdown',
+export const searchSlice = createSlice({
+  name: 'search',
   initialState,
   reducers: {
     openDropdown: (state, action: PayloadAction<boolean>) => {
@@ -20,7 +22,10 @@ export const dropdownSlice = createSlice({
     setQueryValue: (state, action: PayloadAction<string>) => {
       state.query = action.payload;
     },
+    setCountryId: (state, action: PayloadAction<string>) => {
+      state.countryId = action.payload;
+    },
   },
 });
 
-export default dropdownSlice.reducer;
+export default searchSlice.reducer;

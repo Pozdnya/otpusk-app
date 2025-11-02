@@ -6,7 +6,7 @@ interface Props {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export const Input: FC<Props> = ({ handleClick, handleChange }) => {
-  const { query } = useAppSelector(state => state.dropdownReducer)
+  const { query } = useAppSelector(state => state.searchReducer);
 
   return (
     <div className='input-container'>

@@ -1,11 +1,11 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Country, GeoEntity } from '../types';
-import { getCountries, searchGeo } from '../api';
+import type { Country, GeoEntity, GetSearchPricesResponse, StartSearchResponse } from '../types';
+import { getCountries, getSearchPrices, searchGeo, startSearchPrices } from '../api';
 
 export const searchAPI = createApi({
   reducerPath: 'countriesAPI',
   baseQuery: fakeBaseQuery(),
-  tagTypes: ['Countries', 'Geo'],
+  tagTypes: ['Countries', 'Geo', 'Prices', 'StartSearchPrices'],
   endpoints: (builder) => ({
     fetchCountries: builder.query<(Country & { type: 'country' })[], void>({
       queryFn: async () => {
@@ -22,23 +22,51 @@ export const searchAPI = createApi({
           return { error: error as Error };
         }
       },
-      providesTags: () => ['Countries']
+      providesTags: () => [{ type: 'Countries' }]
     }),
     fetchGeo: builder.query<GeoEntity[], string>({
       queryFn: async (query: string) => {
         try {
           const formattedQuery = query.charAt(0).toUpperCase() + query.slice(1);
-          console.log('formattedQuery', formattedQuery)
           const response = await searchGeo(formattedQuery);
           const json = await response.json();
           const geoArray: GeoEntity[] = Object.values(json);
-          console.log('geoArray', geoArray)
           return { data: geoArray }
         } catch (error) {
           return { error: error as Error };
         }
       },
-      providesTags: () => ['Geo']
+      providesTags: () => [{ type: 'Geo' }]
+    }),
+    fetchStartSearchPrices: builder.query<StartSearchResponse, string>({
+      queryFn: async (countryId: string) => {
+        try {
+          const response = await startSearchPrices(countryId);
+          const json = await response.json();
+          return { data: json };
+        } catch (error) {
+          return { error: error as Error };
+        }
+      },
+      providesTags: () => [{ type: 'StartSearchPrices' }],
+    }),
+    fetchGetSearchPrices: builder.query<GetSearchPricesResponse, string>({
+      queryFn: async (token: string) => {
+        try {
+          const response = await getSearchPrices(token);
+          const json = await response.json();
+          const pricesArray = Object.values(json.prices || {});
+          const transformed = {
+            ...json,
+            prices: pricesArray,
+          };
+
+          return { data: transformed };
+        } catch (error) {
+          return { error: error as Error };
+        }
+      },
+      providesTags: () => [{ type: 'Prices' }],
     }),
   }),
 })

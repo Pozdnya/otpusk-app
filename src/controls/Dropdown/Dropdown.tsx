@@ -8,7 +8,7 @@ interface Props {
   searchResults: GeoEntity[],
 }
 export const Dropdown: FC<Props> = ({searchResults}) => {
-  const { isOpened } = useAppSelector(state => state.dropdownReducer)
+  const { isOpened } = useAppSelector(state => state.searchReducer)
   return (
     <div className={cls(
       'dropdown',

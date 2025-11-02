@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import dropdownReducer from './reducers/DropdownSlice';
+import { searchSlice } from './reducers/SearchSlice';
 import { searchAPI } from '../services/SearchService';
 
 const rootReducer = combineReducers({
-  dropdownReducer,
+  searchReducer: searchSlice.reducer,
   [searchAPI.reducerPath]: searchAPI.reducer
 });
 

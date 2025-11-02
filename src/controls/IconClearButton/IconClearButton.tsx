@@ -1,6 +1,6 @@
 import { useAppDispatch } from '../../hooks/redux';
 import { searchAPI } from '../../services/SearchService';
-import { dropdownSlice } from '../../store/reducers/DropdownSlice';
+import { searchSlice } from '../../store/reducers/SearchSlice';
 
 export const IconClearButton = () => {
   const dispatch = useAppDispatch();
@@ -8,7 +8,7 @@ export const IconClearButton = () => {
   
   const handleClear = (event: React.MouseEvent) => {
     event.stopPropagation();
-    dispatch(dropdownSlice.actions.setQueryValue(''));
+    dispatch(searchSlice.actions.setQueryValue(''));
     dispatch(searchAPI.util.resetApiState());
     fetchCountries();
   }

@@ -8,6 +8,12 @@ interface Props {
 }
 export const Button: FC<Props> = ({ text, classNames = '', handleClick }) => {
   return (
-    <button className={cls('button', classNames)} onClick={handleClick}>{text}</button>
+    <button
+      className={cls('button', classNames)}
+      onClick={handleClick}
+      type='submit'
+    >
+      {text}
+    </button>
   )
 }
