@@ -2,8 +2,8 @@ import type { FC } from 'react'
 import { EntityTypes, type GeoEntity } from '../../types'
 import { useAppDispatch } from '../../hooks/redux';
 import { searchSlice } from '../../store/reducers/SearchSlice';
-import HotelIcon from '../../assets/hotel.svg';
-import CityIcon from '../../assets/city.svg';
+import { FaCity } from 'react-icons/fa';
+import { BiHotel } from 'react-icons/bi';
 interface Props {
   searchResult: GeoEntity;
 }
@@ -29,15 +29,16 @@ export const SearchResultItem: FC<Props> = ({ searchResult }) => {
             alt='Flag image'
             className='country-item__flag'
           /> :
-          <img
-            src={
-              searchResult.type === EntityTypes.CITY
-                ? CityIcon
-                : HotelIcon
-            }
-            alt='Flag image'
-            className='country-item__flag'
-          />
+            // <img
+            //   src={
+            //     searchResult.type === EntityTypes.CITY
+            //       ? CityIcon
+            //       : HotelIcon
+            //   }
+            //   alt='Flag image'
+            //   className='country-item__flag'
+            // />
+            searchResult.type === EntityTypes.CITY ? <FaCity className='country-item__flag' /> : <BiHotel className='country-item__flag' /> 
       }
       <p className='country-item__name'>{searchResult.name}</p>
     </div>

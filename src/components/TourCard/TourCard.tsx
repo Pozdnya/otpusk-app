@@ -1,11 +1,11 @@
 import type { FC } from 'react'
 import { CardModeEnum, type FullHotelWithPrice, type HotelWithPrice } from '../../types';
 import { NavLink, useNavigate } from 'react-router';
-import СalendarIcon from '../../assets/calendar.svg';
 import { TourServices } from '../TourServices/TourServices';
 import { FaArrowLeft } from 'react-icons/fa';
 import { TourLocation } from '../TourLocation/TourLocation';
 import { TourDescription } from '../TourDescription/TourDescription';
+import { FaRegCalendarAlt } from 'react-icons/fa';
 
 interface Props {
   tour: HotelWithPrice | FullHotelWithPrice;
@@ -64,7 +64,7 @@ export const TourCard: FC<Props> = ({ tour, mode }) => {
             {
               isShortMode
                 ? <p>Старт туру: </p>
-                : <img className='date__icon' src={СalendarIcon} alt="Calendar Icon" />
+                : <FaRegCalendarAlt className='date__icon' />
             }
             {startDate}
           </div>
