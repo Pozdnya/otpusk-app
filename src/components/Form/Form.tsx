@@ -41,11 +41,15 @@ export const Form = () => {
     console.log(`⏳ Waiting ${waitUntil}ms before next request...`);
     await new Promise((resolve) => setTimeout(resolve, Number(waitUntil)));
 
+    if (isCancelledRef.current || token !== activeTokenRef.current) {
+      console.log("Запит ігноровано через скасування або зміну токена");
+      return;
+    }
+
     try {
       const prices = await fetchGetSearchPrices(token).unwrap();
-      console.log('🚀 Prices:', prices);
       const hotels = await fetchHotels(countryId || '').unwrap();
-      console.log('🚀 Hotels:', hotels);
+
       const hotelMap = new Map<number, Hotel>(hotels.map(hotel => [hotel.id, hotel]));
       const hotelsWithPrices: HotelWithPrice[] = prices.prices
         .filter((price): price is PriceOffer & { hotelID: string } => !!price.hotelID)
@@ -56,70 +60,57 @@ export const Form = () => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { id: priceId, hotelID: _, ...priceData } = price;
 
-          return {
-            ...hotel,
-            ...priceData,
-            priceId,
-          };
+          return { ...hotel, ...priceData, priceId };
         })
         .filter((item): item is HotelWithPrice => item !== null);
 
       dispatch(toursSlice.actions.setHotelsWithPrice(hotelsWithPrices));
-
-      console.log('✅ Hotels with prices:', hotelsWithPrices);
     } catch (error) {
       console.error('⚠️ Error fetching results:', error);
-
       if (retry < 2) {
         console.log(`🔄 Retrying... attempt ${retry + 1}`);
         await pollForResults(token, waitUntil, retry + 1);
       } else {
-        console.error('🚫 Max retries reached. Aborting.');
         dispatch(searchSlice.actions.setError('Max retries reached. Aborting.'));
       }
     }
-  }
+  };
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(searchSlice.actions.openDropdown(false));
-    if (!countryId) {
-      return;
-    }
+
+    if (!countryId) return;
+
+    dispatch(searchSlice.actions.setHasSearched(false));
+    dispatch(searchSlice.actions.setLoading(true));
+    setIsButtonDisabled(true);
 
     if (activeTokenRef.current) {
       isCancelledRef.current = true;
       try {
         await stopSearch(activeTokenRef.current).unwrap();
-        console.log("🛑 Попередній пошук скасовано");
       } catch (error) {
-        console.warn("⚠️ Не вдалося скасувати попередній пошук", error);
+        console.warn("Не вдалося скасувати попередній пошук", error);
       }
     }
 
-     isCancelledRef.current = false;
+    isCancelledRef.current = false;
 
     try {
-      dispatch(searchSlice.actions.setHasSearched(false));
-      dispatch(searchSlice.actions.setLoading(true));
-      dispatch(searchSlice.actions.setHasSearched(true));
-      setIsButtonDisabled(true);
       const { token, waitUntil } = await fetchStartSearchPrices(countryId).unwrap();
       activeTokenRef.current = token;
+
       const delay = new Date(waitUntil).getTime() - Date.now();
-
       await pollForResults(token, delay);
-
-      dispatch(searchSlice.actions.setLoading(false));
     } catch (error) {
       const err = error instanceof Error ? error.message : 'Неочікувана помилка';
       dispatch(searchSlice.actions.setError(err));
-      dispatch(searchSlice.actions.setLoading(false));
-      return { error: error as Error };
     } finally {
+      dispatch(searchSlice.actions.setLoading(false));
       setIsButtonDisabled(false);
     }
-  }
+  };
 
   useEffect(() => {
     if (!query.length) {
