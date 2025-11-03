@@ -1,35 +1,39 @@
 import { useSearchParams } from 'react-router'
 import { searchAPI } from '../../services/SearchService';
 import { TourCard } from '../../components/TourCard/TourCard';
-import type { FullHotelWithPrice } from '../../types';
+import type { FullHotel, FullHotelWithPrice, PriceOffer } from '../../types';
+import { useEffect, useState } from 'react';
 
 export const TourPage = () => {
   const [searchParams] = useSearchParams();
   const priceId = searchParams.get('priceId');
-  const hotelId = Number(searchParams.get('hotelId'));
-  if (!priceId) {
-    return (
-      <div>Price not found</div>
-    )
-  }
-  if (!hotelId) {
-    return (
-      <div>Hotel not found</div>
-    )
-  }
-  const { data: price } = searchAPI.useFetchPriceQuery(priceId);
-  const { data: hotel } = searchAPI.useFetchHotelQuery(hotelId);
+  const hotelId = searchParams.get('hotelId');
 
-  if (!price || !hotel) return;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id: _, ...priceData } = price;
-  const compareFullTour: FullHotelWithPrice = {
-    ...hotel,
-    ...priceData,
+  const [fetchHotelById] = searchAPI.useLazyFetchHotelQuery();
+  const [fetchPriceById] = searchAPI.useLazyFetchPriceQuery();
+  const [tour, setTour] = useState<FullHotelWithPrice | null>(null);
+
+  const loadData = async () => {
+    if (!hotelId || !priceId) return;
+
+    const hotel = (await fetchHotelById(Number(hotelId)).unwrap()) as FullHotel;
+    const price = (await fetchPriceById(priceId).unwrap()) as PriceOffer;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: _, ...priceData } = price;
+    const fullTour: FullHotelWithPrice = { ...hotel, ...priceData };
+
+    setTour(fullTour);
   };
+
+  useEffect(() => {
+    loadData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchHotelById, fetchPriceById, hotelId, priceId]);
+
   return (
     <div>
-      <TourCard tour={compareFullTour} />
+      {tour && <TourCard tour={tour} />}
     </div>
   )
 }
