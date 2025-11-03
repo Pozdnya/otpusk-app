@@ -1,73 +1,37 @@
-# React + TypeScript + Vite
+# 🧳 Tour Search App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Цей проєкт — клієнтська частина застосунку для пошуку турів. Побудований на сучасному стеку з використанням React, Redux Toolkit, Vite, SCSS та RTK Query.
 
-Currently, two official plugins are available:
+## 🚀 Технології
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** — сучасна версія React з покращеним рендерингом
+- **Redux Toolkit** — ефективне управління станом
+- **RTK Query** — запити до API без зайвого boilerplate
+- **React Router v7** — маршрутизація
+- **React Icons** — SVG-іконки з популярних бібліотек
+- **SASS (SCSS)** — стилізація з підтримкою вкладеності та змінних
+- **Classnames** — зручне керування класами
+- **Vite** — надшвидкий білдер і дев-сервер
+- **ESLint** — перевірка якості коду
 
-## React Compiler
+## 📦 Скрипти
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Скрипт       | Опис                                      |
+|--------------|-------------------------------------------|
+| `npm run dev`      | Запуск локального дев-сервера через Vite |
+| `npm run build`    | Збірка проєкту (`tsc` + `vite build`)     |
+| `npm run lint`     | Перевірка коду ESLint'ом               |
+| `npm run preview`  | Перегляд білду через Vite Preview      |
 
-## Expanding the ESLint configuration
+## 📁 Встановлення та запуск
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```bash
+# 1. Клонування репозиторію
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# 2. Встановлення залежностей
+npm install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# 3. Запуск локального сервера
+npm run dev
