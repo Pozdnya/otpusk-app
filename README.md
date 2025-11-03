@@ -27,7 +27,7 @@
 
 ```bash
 # 1. Клонування репозиторію
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/Pozdnya/otpusk-app.git
 cd your-repo-name
 
 # 2. Встановлення залежностей
