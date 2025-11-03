@@ -9,6 +9,7 @@
 // pages
 @import '../App.scss';
 @import '../pages/NotFoundPage/NotFoundPage';
+@import '../pages/TourPage/TourPage';
 
 //controls
 @import '../controls/Button/Button';
@@ -22,6 +23,6 @@
 @import '../components/SearchResultItem/SearchResultItem';
 @import '../components/Main/Main';
 @import '../components/ToursList/ToursList';
-@import '../components/TourItem/TourItem';
+@import '../components/TourCard/TourCard';
 @import '../components/ResultStatus/ResultStatus';
 @import '../components/Spinner/Spinner';

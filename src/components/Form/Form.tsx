@@ -45,17 +45,21 @@ export const Form = () => {
       console.log('🚀 Hotels:', hotels);
       const hotelMap = new Map<number, Hotel>(hotels.map(hotel => [hotel.id, hotel]));
       const hotelsWithPrices: HotelWithPrice[] = prices.prices
-        .filter((price): price is PriceOffer & { hotelID: string } => !!price.hotelID)
-        .map(price => {
-          const hotel = hotelMap.get(Number(price.hotelID));
-          if (!hotel) return null;
+  .filter((price): price is PriceOffer & { hotelID: string } => !!price.hotelID)
+  .map(price => {
+    const hotel = hotelMap.get(Number(price.hotelID));
+    if (!hotel) return null;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id: priceId, hotelID: _, ...priceData } = price;
 
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { id: _, hotelID: __, ...priceData } = price;
-          return { ...hotel, ...priceData };
-        })
-        .filter((item): item is HotelWithPrice => item !== null);
+    return {
+      ...hotel,
+      ...priceData,
+      priceId,
+    };
+  })
+  .filter((item): item is HotelWithPrice => item !== null);
 
       dispatch(toursSlice.actions.setHotelsWithPrice(hotelsWithPrices));
 

@@ -45,4 +45,24 @@ export type GetSearchPricesResponse = {
   prices: PriceOffer[];
 };
 
-export type HotelWithPrice = Hotel & Omit<PriceOffer, 'id' | 'hotelID'>
+export type HotelWithPrice = Hotel & Omit<PriceOffer, 'id' | 'hotelID'> & {
+  priceId: string;
+}
+
+export interface FullTourRequestBody {
+  priceId: string;
+  hotelId: string;
+}
+
+export type FullHotel = Hotel & {
+  description: string;
+  services: {
+    aquapark: string;
+    laundry: string;
+    parking: string;
+    tennis_court: string;
+    wifi: string;
+  }
+}
+
+export type FullHotelWithPrice = FullHotel & Omit<PriceOffer, 'id'> 
