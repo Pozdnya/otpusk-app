@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import type { HotelWithPrice } from '../../types'
+import { CardModeEnum, type HotelWithPrice } from '../../types'
 import { TourCard } from '../TourCard/TourCard'
 
 
@@ -10,7 +10,7 @@ export const ToursList: FC<Props> = ({ tour }) => {
   return (
     <div className='tour-list'>
       <div className="tours-grid">
-        {tour.map(tour => <TourCard tour={tour} key={tour.id} />)}
+        {tour.map(tour => <TourCard tour={tour} mode={CardModeEnum.SHORT} key={tour.id} />)}
       </div>
     </div>
   )

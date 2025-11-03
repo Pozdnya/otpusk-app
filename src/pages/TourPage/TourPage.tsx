@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router'
 import { searchAPI } from '../../services/SearchService';
 import { TourCard } from '../../components/TourCard/TourCard';
-import type { FullHotel, FullHotelWithPrice, PriceOffer } from '../../types';
+import { CardModeEnum, type FullHotel, type FullHotelWithPrice, type PriceOffer } from '../../types';
 import { useEffect, useState } from 'react';
 
 export const TourPage = () => {
@@ -32,8 +32,8 @@ export const TourPage = () => {
   }, [fetchHotelById, fetchPriceById, hotelId, priceId]);
 
   return (
-    <div>
-      {tour && <TourCard tour={tour} />}
+    <div className='tour-page-container'>
+      {tour && <TourCard tour={tour} mode={CardModeEnum.FUll}/>}
     </div>
   )
 }

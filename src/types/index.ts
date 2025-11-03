@@ -54,6 +54,11 @@ export interface FullTourRequestBody {
   hotelId: string;
 }
 
+export enum CardModeEnum {
+  FUll = 'full',
+  SHORT = 'short'
+}
+
 export type FullHotel = Hotel & {
   description: string;
   services: {

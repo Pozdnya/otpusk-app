@@ -5,8 +5,17 @@
   background-color: $color-white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 400px;
-  max-width: 520px;
   text-align: center;
+
+  @media (max-width: 992px) {
+    padding: 1.5rem 3rem;
+    width: 350px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem;
+    width: 300px;
+  }
 }
 
 .form {

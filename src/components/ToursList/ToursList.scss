@@ -1,7 +1,19 @@
 .tour-list {
-  width: 700px;
-  padding: 25px;
+  width: 70rem;
+  padding: 2.5rem;
   margin: 0 auto;
+
+  @media (max-width: 1200px) {
+    width: auto;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
 }
 
 .tours-grid {
@@ -9,7 +21,7 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 
-  @media (max-width: 1200px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
 }
