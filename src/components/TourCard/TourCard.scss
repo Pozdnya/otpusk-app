@@ -91,31 +91,9 @@
   }
 }
 
-.location {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
 
-  &__image {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-}
 
-.description {
-  padding: 0.7rem;
 
-  &__title {
-    margin-bottom: 0.4rem;
-    font-size: 1.8rem;
-    font-weight: bold;
-  }
-
-  &__text {
-    font-size: 1.4rem;
-    color: #777;
-  }
-}
 
 .date {
   &__icon {

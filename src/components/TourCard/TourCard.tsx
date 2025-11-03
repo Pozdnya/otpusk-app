@@ -2,10 +2,10 @@ import type { FC } from 'react'
 import { CardModeEnum, type FullHotelWithPrice, type HotelWithPrice } from '../../types';
 import { NavLink, useNavigate } from 'react-router';
 import СalendarIcon from '../../assets/calendar.svg';
-import CityIcon from '../../assets/city.svg';
-import HotelIcon from '../../assets/hotel.svg';
 import { TourServices } from '../TourServices/TourServices';
 import { FaArrowLeft } from 'react-icons/fa';
+import { TourLocation } from '../TourLocation/TourLocation';
+import { TourDescription } from '../TourDescription/TourDescription';
 
 interface Props {
   tour: HotelWithPrice | FullHotelWithPrice;
@@ -32,19 +32,8 @@ export const TourCard: FC<Props> = ({ tour, mode }) => {
       }
       <div className="tour">
         {
-          isFullMode &&
-          <div className='tour__location'>
-            <div className='location'>
-              <img src={CityIcon} alt='City Icon' className='location__image' />
-              <p className="location__text">
-                {tour.countryName}
-              </p>
-            </div>
-            <div className='location'>
-              <img src={HotelIcon} alt="Hotel Icon" className='location__image' />
-              <p className="location__text">{tour.cityName}</p>
-            </div>
-          </div>
+          isFullMode && <TourLocation tour={tour} />
+          
         }
         {isFullMode && <h3 className="tour__title">{tour.name}</h3>}
         <img
@@ -53,11 +42,7 @@ export const TourCard: FC<Props> = ({ tour, mode }) => {
           className={isFullMode ? "tour__image--full" : "tour__image"}
         />
         {
-          isFullMode && 'description' in tour &&
-          <div className='tour__description description'>
-            <h3 className="description__title">Опис</h3>
-            <p className="description__text">{tour.description}</p>
-          </div>
+          isFullMode && 'description' in tour && <TourDescription description={tour.description} />
         }
         {isFullMode && <div className='tour__services services'>
         </div>}

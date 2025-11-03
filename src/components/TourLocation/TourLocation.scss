@@ -1,0 +1,10 @@
+.location {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  &__image {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
