@@ -1,11 +1,11 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { Country, FullHotel, GeoEntity, GetSearchPricesResponse, Hotel, PriceOffer, StartSearchResponse } from '../types';
-import { getCountries, getHotel, getHotels, getPrice, getSearchPrices, searchGeo, startSearchPrices } from '../api';
+import type { Country, FullHotel, GeoEntity, GetSearchPricesResponse, Hotel, PriceOffer, StartSearchResponse, StopSearchResponse } from '../types';
+import { getCountries, getHotel, getHotels, getPrice, getSearchPrices, searchGeo, startSearchPrices, stopSearchPrices } from '../api';
 
 export const searchAPI = createApi({
   reducerPath: 'countriesAPI',
   baseQuery: fakeBaseQuery(),
-  tagTypes: ['Countries', 'Geo', 'Prices', 'StartSearchPrices', 'Hotels', 'Price', 'Hotel'],
+  tagTypes: ['Countries', 'Geo', 'Prices', 'StartSearchPrices', 'Hotels', 'Price', 'Hotel', 'StopSearch'],
   endpoints: (builder) => ({
     fetchCountries: builder.query<(Country & { type: 'country' })[], void>({
       queryFn: async () => {
@@ -61,8 +61,6 @@ export const searchAPI = createApi({
             prices: pricesArray,
           };
 
-          console.log('fetchGetSearchPrices', transformed)
-
           return { data: transformed };
         } catch (error) {
           return { error: error as Error };
@@ -89,7 +87,7 @@ export const searchAPI = createApi({
         try {
           const price = await getPrice(priceId);
           const json = await price.json();
-          console.log('Price:', json);
+
           return { data: json };
         } catch (error) {
           return { error: error as Error };
@@ -102,13 +100,25 @@ export const searchAPI = createApi({
         try {
           const hotel = await getHotel(hotelId);
           const json = await hotel.json();
-          console.log('Hotel:', json);
+
           return { data: json };
         } catch (error) {
           return { error: error as Error };
         }
       },
       providesTags: () => [{ type: 'Hotel' }]
+    }),
+    stopSearchPrices: builder.query<StopSearchResponse, string>({
+      queryFn: async (token: string) => {
+        try {
+         const response = await stopSearchPrices(token);
+
+          return { data: await response.json() };
+        } catch (error) {
+          return { error: error as Error };
+        }
+      },
+      providesTags: () => [{ type: 'StopSearch' }]
     })
   }),
 })

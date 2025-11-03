@@ -9,7 +9,6 @@ interface Props {
   services: { [key: string]: string }
 }
 export const TourServices: FC<Props> = ({ services }) => {
-  console.log('services', services)
   const tourServices: Record<string, { icon: IconType; text: string }> = {
     wifi: { icon: AiOutlineWifi, text: "Wi-Fi" },
     aquapark: { icon: BsWater, text: "Басейн" },

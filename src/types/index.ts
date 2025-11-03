@@ -71,3 +71,8 @@ export type FullHotel = Hotel & {
 }
 
 export type FullHotelWithPrice = FullHotel & Omit<PriceOffer, 'id'> 
+
+export interface StopSearchResponse {
+  status: string;
+  message: string;
+}

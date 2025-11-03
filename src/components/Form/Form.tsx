@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from '../../controls/Button/Button'
 import { Dropdown } from '../../controls/Dropdown/Dropdown'
 import { Input } from '../../controls/Input/Input'
@@ -16,8 +16,11 @@ export const Form = () => {
   const [fetchGetSearchPrices] = searchAPI.useLazyFetchGetSearchPricesQuery();
   const [fetchHotels] = searchAPI.useLazyFetchHotelsQuery();
   const { query, countryId } = useAppSelector(state => state.searchReducer)
-
   const [fetchGeo, { data: geo }] = searchAPI.useLazyFetchGeoQuery();
+  const activeTokenRef = useRef<string | null>(null);
+  const isCancelledRef = useRef(false);
+  const [stopSearch] = searchAPI.useLazyStopSearchPricesQuery();
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false)
   const handleInputClick = () => {
     dispatch(searchSlice.actions.openDropdown(true));
     fetchCountries();
@@ -45,21 +48,21 @@ export const Form = () => {
       console.log('🚀 Hotels:', hotels);
       const hotelMap = new Map<number, Hotel>(hotels.map(hotel => [hotel.id, hotel]));
       const hotelsWithPrices: HotelWithPrice[] = prices.prices
-  .filter((price): price is PriceOffer & { hotelID: string } => !!price.hotelID)
-  .map(price => {
-    const hotel = hotelMap.get(Number(price.hotelID));
-    if (!hotel) return null;
+        .filter((price): price is PriceOffer & { hotelID: string } => !!price.hotelID)
+        .map(price => {
+          const hotel = hotelMap.get(Number(price.hotelID));
+          if (!hotel) return null;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id: priceId, hotelID: _, ...priceData } = price;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { id: priceId, hotelID: _, ...priceData } = price;
 
-    return {
-      ...hotel,
-      ...priceData,
-      priceId,
-    };
-  })
-  .filter((item): item is HotelWithPrice => item !== null);
+          return {
+            ...hotel,
+            ...priceData,
+            priceId,
+          };
+        })
+        .filter((item): item is HotelWithPrice => item !== null);
 
       dispatch(toursSlice.actions.setHotelsWithPrice(hotelsWithPrices));
 
@@ -72,6 +75,7 @@ export const Form = () => {
         await pollForResults(token, waitUntil, retry + 1);
       } else {
         console.error('🚫 Max retries reached. Aborting.');
+        dispatch(searchSlice.actions.setError('Max retries reached. Aborting.'));
       }
     }
   }
@@ -83,12 +87,25 @@ export const Form = () => {
       return;
     }
 
-    dispatch(searchSlice.actions.setHasSearched(false));
+    if (activeTokenRef.current) {
+      isCancelledRef.current = true;
+      try {
+        await stopSearch(activeTokenRef.current).unwrap();
+        console.log("🛑 Попередній пошук скасовано");
+      } catch (error) {
+        console.warn("⚠️ Не вдалося скасувати попередній пошук", error);
+      }
+    }
+
+     isCancelledRef.current = false;
 
     try {
+      dispatch(searchSlice.actions.setHasSearched(false));
       dispatch(searchSlice.actions.setLoading(true));
       dispatch(searchSlice.actions.setHasSearched(true));
+      setIsButtonDisabled(true);
       const { token, waitUntil } = await fetchStartSearchPrices(countryId).unwrap();
+      activeTokenRef.current = token;
       const delay = new Date(waitUntil).getTime() - Date.now();
 
       await pollForResults(token, delay);
@@ -99,8 +116,9 @@ export const Form = () => {
       dispatch(searchSlice.actions.setError(err));
       dispatch(searchSlice.actions.setLoading(false));
       return { error: error as Error };
+    } finally {
+      setIsButtonDisabled(false);
     }
-
   }
 
   useEffect(() => {
@@ -129,7 +147,7 @@ export const Form = () => {
             />
           )}
         </div>
-        <Button text='Знайти' />
+        <Button text='Знайти' disabled={isButtonDisabled} />
       </form>
     </div>
   )
